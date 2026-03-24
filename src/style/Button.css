@@ -1,0 +1,20 @@
+.primary-btn {
+  background: var(--accent-primary);
+  color: #0d1117;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 20px var(--accent-primary-glow);
+}
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(88, 166, 255, 0.6);
+  background: #79c0ff;
+}
+.primary-btn:active {
+  transform: translateY(1px);
+}

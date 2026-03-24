@@ -1,0 +1,83 @@
+.falling-word {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  will-change: transform, top;
+}
+
+.meteorite-body {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: -10px;
+  left: -10px;
+  background-image: url('/image/meteors.png');
+  background-repeat: no-repeat;
+  animation: rock-tumble 30s infinite linear;
+  z-index: 1;
+  /* 偽のチェッカー柄を切り抜き、ランダムな多角形で隕石のゴツゴツ感を表現 */
+  overflow: hidden;
+}
+
+/* 1-2 chars */
+.meteorite-body.type-0 {
+  background-size: 1528.9px 853.3px;
+  background-position: -168.3px -146.1px;
+  clip-path: polygon(25% 10%, 75% 5%, 95% 40%, 85% 85%, 50% 95%, 10% 75%, 5% 30%);
+}
+/* 3-4 chars */
+.meteorite-body.type-1 {
+  background-size: 982.9px 548.6px;
+  background-position: -96.1px -198.9px;
+  clip-path: polygon(30% 0%, 80% 15%, 100% 50%, 85% 90%, 40% 100%, 10% 80%, 0% 35%);
+}
+/* 5-6 chars */
+.meteorite-body.type-2 {
+  background-size: 573.3px 320.0px;
+  background-position: -39.0px -201.9px;
+  clip-path: polygon(15% 15%, 60% 0%, 95% 25%, 100% 70%, 75% 95%, 20% 90%, 0% 50%);
+}
+/* 7-8 chars */
+.meteorite-body.type-3 {
+  background-size: 688px 384px;
+  background-position: -529px -24.8px;
+  clip-path: polygon(40% 5%, 85% 10%, 100% 45%, 90% 95%, 30% 100%, 5% 75%, 10% 20%);
+}
+/* 9-10 chars */
+.meteorite-body.type-4 {
+  background-size: 393.1px 219.4px;
+  background-position: -251.3px -107.1px;
+  clip-path: polygon(20% 10%, 70% 0%, 90% 30%, 100% 75%, 60% 100%, 15% 85%, 0% 45%);
+}
+
+.meteorite-container.locked .meteorite-body {
+  filter: drop-shadow(0 0 8px #ff0054) drop-shadow(0 0 15px #ff0054);
+}
+
+.meteorite-container .word-text {
+  position: relative;
+  z-index: 2;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  text-shadow: 1px 1px 3px #000, 0 0 5px #ff7b00;
+  font-size: 1.4rem;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.meteorite-container .word-text .typed {
+  color: #ff0054;
+  text-shadow: 0 0 8px #ff0054;
+}
+
+.meteorite-container .word-text .untyped {
+  color: #ffffff;
+}
+
+@keyframes rock-tumble {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

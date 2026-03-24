@@ -1,0 +1,50 @@
+.hud {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  z-index: 10;
+  pointer-events: none;
+}
+.hud-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+.hud-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+.hud-value {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--text-main);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+.lives-container {
+  display: flex;
+  gap: 8px;
+}
+.life-icon {
+  font-size: 1.5rem;
+  color: var(--accent-danger);
+  filter: drop-shadow(0 0 5px rgba(248, 81, 73, 0.5));
+  transition: all 0.3s ease;
+}
+.life-icon.lost {
+  filter: grayscale(100%) opacity(0.3);
+  transform: scale(0.8);
+}
