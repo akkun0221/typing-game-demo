@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# Typing Missile Defense: T-EDF Operator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+このプロジェクトは、迫りくる隕石群をタイピングによって迎撃する「ミサイルディフェンス型タイピングゲーム」です。
+React + TypeScriptを用いて構築されており、リッチなCSSアニメーションと映画的な没入感のある表現が特徴です。
 
-Currently, two official plugins are available:
+## 📖 ストーリー（Introduction）
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+人類が宇宙への進出を果たし、かつてない繁栄と平和を謳歌していた時代。その平穏は、突如として破られた。
+太陽系の彼方より、観測史上未曾有の巨大隕石群が地球へ向かって急接近を開始したのだ。
 
-## React Compiler
+在来の防衛システムは無力化され、絶望に沈む世界。人類は最後の希望を、極秘裏に開発されていた超高性能AIサイボーグ「T-EDF オペレーター」に託した。
+彼の超人的な「高速タイピング能力」だけが、この無数の隕石群を正確に捉え、迎撃ミサイルを撃ち込める唯一の手段である。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+人類の存亡は今、あなたの指先に委ねられた……！
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🎮 遊び方（Game Manual）
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 基本ルール
+1. **START SCREEN** の「GAME START」ボタンを押すとゲームが始まります。
+2. 画面上部から「隕石（英単語）」が降ってきます。落ちてくる英単語をキーボードで正確にタイピングしてください。
+3. **ロックオンシステム**: 画面に複数の隕石がある場合、あなたが「最初に打った文字」から始まる単語が自動的にロックオンされます。ロックオンされた隕石には赤いオーラが表示され、それ以外の単語へは目移りせずに最後まで集中して打ち切ることができます。
+4. 正しく入力するたびに、地球の発射台から「迎撃ミサイル」が発射されます。
+5. 単語を最後まで打ち切ると、巨大な爆発とカットイン演出（フラッシュ）とともに隕石が完全に破壊されます。
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### スコアとライフ
+- **スコア**: 破壊した隕石の「文字数 × 10点」が加算されます。
+- **目標**: **10,000点** に到達するとゲームクリア！専用のエンディング画面へと到達します。
+- **ライフ（地球の体力）**: 画面下部の地球に隕石が衝突してしまうと、ライフが1減ります（画面全体の赤色フラッシュで警告されます）。
+- 初期ライフは「5」です。ライフがゼロになると地球は滅亡し、GAME OVERとなります。
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 操作方法・ショートカット
+- **キーボード入力（a〜z）**: 迎撃ミサイルのタイピングに使用します。
+- **Spaceキー**: BGM・サウンドのON/OFF（ミュート切り替え）をいつでも行えます。
+- **デモ画面機能**: タイトル画面で5秒間何も操作せずに放置すると、スターウォーズ風の3Dプロローグテキストが流れ、そのままAIによる「自動デモプレイ」が開始されます（スクロール中やデモ中に何かキーを叩くとタイトルへ戻ります）。
+
+---
+
+## 🛠 技術スタック (Tech Stack)
+
+- **Framework**: React 18
+- **Language**: TypeScript
+- **Build Tool**: Vite
+- **Styling**: Vanilla CSS (CSS Variables, Flexbox, Keyframes, 3D Transforms)
+- **Audio**: HTML5 Audio API (カスタムフック `useBGM` にて状態遷移と同期管理)
+- **Architecture**: Atomic Design に基づくコンポーネント分割設計
+
+### 主な技術的アプローチと特徴
+- **動的辞書データの外部フェッチ**: GitHub上の公開リポジトリ（[tech-terms](https://github.com/togakangaroo/tech-terms)）から `terms.org` をリアルタイムにフェッチ・パースし、10文字以下のITエンジニア用語をランダムに出題するシステムを採用しています。
+- **パフォーマンスに優れたCSS描画**: CSSの `box-shadow` を用いた3層パララックスの「星降る宇宙背景」や、`perspective` を用いた大迫力の「3Dスクロール演出」など、JavaScriptの再描画ループに頼らない軽量でリッチなアニメーションを多用しています。
+- **CSSクリッピングによる画像加工**: 隕石のグラフィックは、1枚のスプライト画像を使用。CSSの `background-size` 座標調整と `clip-path: polygon` を組み合わせることで、画像に焼き付いていた偽のチェッカー柄（透過失敗表現）を除去しながら、自然でゴツゴツとした岩石の質感をプログラム的かつ動的に生成して表現しています。
+
+---
+
+## 📁 ファイル構成 (Directory Structure)
+
+```text
+typing-game-demo/
+├── public/                 # 静的アセット（ビルド時にそのまま出力）
+│   ├── image/              # タイトル画像、カットイン、スプライトなどの主要画像群
+│   └── bgm/                # シーン別のBGM音声ファイル群
+├── src/
+│   ├── components/         # Atomic Designに基づくReactコンポーネント
+│   │   ├── atoms/          # ボタン、アイコン、パーティクル、星空背景など基礎部品
+│   │   ├── molecules/      # スコアボード、ライフゲージ、隕石（落下単語）など機能要素
+│   │   ├── organisms/      # ゲームフィールド、HUD、モーダル、地球発射台などの結合UI
+│   │   └── pages/          # 各画面状態（タイトル, プレイ, ゲームオーバー, エンディング, デモ 等）
+│   ├── hooks/              # カスタムフック群
+│   │   ├── useBGM.ts       # BGMの再生/停止/ミュート/画面遷移時のコンテキスト切り替え
+│   │   ├── useGameLoop.ts  # ゲームループ本体（隕石の生成・落下・衝突判定・スコア計算）
+│   │   └── useTyping.ts    # キーボード入力の判定とロックオン処理、エフェクトトリガー
+│   ├── style/              # 各コンポーネントに対応する個別CSSファイル郡
+│   ├── types/              # TypeScriptの型定義（Game状態やデータ構造ロジック）
+│   ├── App.tsx             # 最上位コンポーネント（画面状態のルーティングと全体ベース）
+│   ├── App.css             # グローバルCSS（アプリ全体の透過設定やレイアウト）
+│   ├── index.css           # ブラウザのリセットCSSとカラーパレット（ベーススタイル）
+│   └── main.tsx            # React環境へのマウント用エントリーポイント
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 ローカル環境での起動方法 (Installation & Setup)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. リポジトリをクローン、またはダウンロードして展開します。
+2. コマンドラインツール（ターミナル / PowerShell 等）でディレクトリへ移動し、依存関係をインストールします。
+   ```bash
+   npm install
+   ```
+3. 開発用ローカルサーバーを起動します。
+   ```bash
+   npm run dev
+   ```
+4. コンソールに設定されたURL（例: `http://localhost:5173/` ）を開くと、人類の命運を懸けた防衛ミッションが始まります！
