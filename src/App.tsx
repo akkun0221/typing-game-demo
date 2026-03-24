@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import type { GameState, FallingWordType } from "./types/game";
 import { StartScreen } from "./components/pages/StartScreen";
+import { Introduction } from "./components/pages/Introduction";
 import { PlayingScreen } from "./components/pages/PlayingScreen";
 import { GameOverScreen } from "./components/pages/GameOverScreen";
 import { EndingScreen } from "./components/pages/EndingScreen";
@@ -21,28 +22,30 @@ function App() {
   const { isMuted, toggleMute } = useBGM(gameState);
 
   useEffect(() => {
-    if (gameState !== "START_SCREEN") return;
-
-    let timer: ReturnType<typeof setTimeout>;
+    let idleTimer: ReturnType<typeof setTimeout>;
+    
+    if (gameState === "START_SCREEN") {
+      idleTimer = setTimeout(() => {
+        setGameState("INTRODUCTION");
+      }, 5000);
+    }
 
     const resetTimer = () => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        setGameState("DEMO");
-      }, 5000);
+      if (gameState === "START_SCREEN") {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          setGameState("INTRODUCTION");
+        }, 5000);
+      }
     };
 
-    resetTimer();
-
-    window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keydown", resetTimer);
-    window.addEventListener("mousedown", resetTimer);
+    window.addEventListener("mousemove", resetTimer);
 
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener("mousemove", resetTimer);
+      clearTimeout(idleTimer);
       window.removeEventListener("keydown", resetTimer);
-      window.removeEventListener("mousedown", resetTimer);
+      window.removeEventListener("mousemove", resetTimer);
     };
   }, [gameState]);
 
@@ -86,7 +89,14 @@ function App() {
         <StartScreen 
           onStart={startGame} 
           isMuted={isMuted} 
-          toggleMute={toggleMute} 
+          toggleMute={() => toggleMute()} 
+        />
+      )}
+
+      {gameState === "INTRODUCTION" && (
+        <Introduction 
+          onComplete={() => setGameState("DEMO")} 
+          onInterrupt={() => setGameState("START_SCREEN")} 
         />
       )}
 

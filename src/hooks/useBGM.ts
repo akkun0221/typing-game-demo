@@ -39,7 +39,7 @@ export const useBGM = (gameState: GameState) => {
     if (!audio) return;
 
     let src = '';
-    if (gameState === 'START_SCREEN' || gameState === 'ENDING') src = '/bgm/title.mp3';
+    if (gameState === 'START_SCREEN' || gameState === 'ENDING' || gameState === 'INTRODUCTION') src = '/bgm/title.mp3';
     else if (gameState === 'PLAYING' || gameState === 'DEMO') src = '/bgm/playing.mp3';
     else if (gameState === 'GAME_OVER') src = '/bgm/gameover.mp3';
 

@@ -1,0 +1,60 @@
+.intro-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  perspective: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: transparent;
+}
+
+.intro-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 40vh;
+  background: linear-gradient(to bottom, rgba(13, 17, 23, 1) 0%, rgba(13, 17, 23, 0) 100%);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.intro-crawl {
+  position: absolute;
+  top: 100vh;
+  left: 50%;
+  width: 95%;
+  max-width: 1400px;
+  transform: translateX(-50%);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  font-size: 2.8rem;
+  font-weight: 900;
+  line-height: 1.8;
+  color: #ffcc00;
+  text-align: justify;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
+  /* The animation drives the scrolling and 3D transform */
+  animation: crawl 15s linear forwards;
+}
+
+.intro-crawl p {
+  margin-bottom: 2.5rem;
+}
+
+@keyframes crawl {
+  0% {
+    top: 100vh;
+    transform: translateX(-50%) rotateX(35deg) translateZ(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: -150vh;
+    transform: translateX(-50%) rotateX(35deg) translateZ(-1500px);
+    opacity: 0;
+  }
+}

@@ -1,4 +1,4 @@
-export type GameState = 'START_SCREEN' | 'PLAYING' | 'GAME_OVER' | 'DEMO' | 'ENDING';
+export type GameState = 'START_SCREEN' | 'INTRODUCTION' | 'PLAYING' | 'GAME_OVER' | 'DEMO' | 'ENDING';
 
 export interface FallingWordType {
   id: string;
